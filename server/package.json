@@ -1,0 +1,34 @@
+{
+  "name": "webrtc_star_net_node",
+  "version": "0.1.0",
+  "description": "This project presents a few example applications using node-webrtc.",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint index.js examples lib test",
+    "start": "node index.js",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "tape 'test/unit/**/*.js'",
+    "test:integration": "tape 'test/integration/**/*.js'"
+  },
+  "keywords": [
+    "Web",
+    "Audio"
+  ],
+  "author": "Mark Andrus Roberts <markandrusroberts@gmail.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "fluent-ffmpeg-multistream": "^1.0.0",
+    "uuid": "^3.3.2",
+    "wrtc": "^0.4.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "tape": "^4.10.0"
+  }
+}
