@@ -13,20 +13,20 @@ class ConnectionManager {
     };
 
     const {
-      Connection,
+      // Connection,
       generateId
     } = options;
 
     const connections = new Map();
     const closedListeners = new Map();
-
+    const peerConnections = new Map();
     function createId() {
       do {
         const id = generateId();
         if (!connections.has(id)) {
           return id;
         }
-      // eslint-disable-next-line
+        // eslint-disable-next-line
       } while (true);
     }
 
@@ -42,7 +42,7 @@ class ConnectionManager {
 
     this.createConnection = () => {
       const id = createId();
-      const connection = new Connection(id);
+      const connection = new options.Connection(id);
 
       // 1. Add the "closed" listener.
       function closedListener() { deleteConnection(connection); }
@@ -51,7 +51,6 @@ class ConnectionManager {
 
       // 2. Add the Connection to the Map.
       connections.set(connection.id, connection);
-
       return connection;
     };
 
@@ -62,6 +61,26 @@ class ConnectionManager {
     this.getConnections = () => {
       return [...connections.values()];
     };
+
+    this.getConnectionsMap = () => {
+      return connections;
+    };
+
+    this.updateConnection = (id, peerConnection) => {
+      peerConnections.set(id, peerConnection);
+    };
+
+    this.getPeerConnections = () => {
+      return { peerConnections, connections };
+    };
+
+    this.updateOptions = (updatedOptions) => {
+      options = {
+        Connection: DefaultConnection,
+        generateId: uuidv4,
+        ...updatedOptions
+      };
+    };
   }
 
   toJSON() {
@@ -69,4 +88,17 @@ class ConnectionManager {
   }
 }
 
-module.exports = ConnectionManager;
+let connectionManagerInstance;
+function createConnectionManagerInstance() {
+  connectionManagerInstance = new ConnectionManager({});
+  return connectionManagerInstance;
+}
+
+function getConnectionManagerInstance() {
+  if (!connectionManagerInstance) {
+    connectionManagerInstance = createConnectionManagerInstance();
+  }
+  return connectionManagerInstance;
+}
+
+module.exports = getConnectionManagerInstance();

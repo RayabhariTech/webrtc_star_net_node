@@ -5,6 +5,10 @@ function mount(app, connectionManager, prefix = '') {
     res.send(connectionManager.getConnections());
   });
 
+  app.get(`${prefix}/peer-connections`, (req, res) => {
+    res.send(connectionManager.getPeerConnections());
+  });
+
   app.post(`${prefix}/connections`, async (req, res) => {
     try {
       const connection = await connectionManager.createConnection();
