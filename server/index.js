@@ -18,7 +18,7 @@ const options = require(serverPath);
 const connectionManager = WebRtcConnectionManager.create(options);
 mount(app, connectionManager, '/broadcaster');
 
-const server = app.listen(3001, () => {
+const server = app.listen(3000, () => {
   const address = server.address();
   console.log(`http://localhost:${address.port}\n`);
 
