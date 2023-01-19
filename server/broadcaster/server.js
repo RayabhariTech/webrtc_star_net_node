@@ -11,7 +11,7 @@ function beforeOffer(peerConnection, connectionManagerInstance, currentPeerConne
   const audioTransceiver = peerConnection.addTransceiver('audio')
   const videoTransceiver = peerConnection.addTransceiver('video')
   const audioTrack = broadcaster.audioTrack = audioTransceiver.receiver.track;
-  const videoTrack = broadcaster.videoTrack = videoTransceiver.receiver.track
+  const videoTrack = broadcaster.videoTrack = videoTransceiver.receiver.track;
 
   function onNewBroadcast({ audioTrack, videoTrack }) {
     const { peerConnections, connections } = connectionManagerInstance.getPeerConnections();
@@ -20,18 +20,35 @@ function beforeOffer(peerConnection, connectionManagerInstance, currentPeerConne
     const states = ["closed", "failed", "disconnected"]
     var i = 0
     for (let [key, value] of peerConnections) {
+      console.log(key, currentPeerConnectionId, key === currentPeerConnectionId)
       if (key === currentPeerConnectionId)
         continue;
       if(states.includes(value.connectionState))
         continue;
       if(i==0){
-        audioTransceiver.sender.replaceTrack(value.getTransceivers()[0].receiver.track);
-        videoTransceiver.sender.replaceTrack(value.getTransceivers()[1].receiver.track);
+        value.getTransceivers().map(trans=>{
+          if(trans.receiver.track.kind === "audio"){
+            audioTransceiver.sender.replaceTrack(trans.receiver.track);
+          }
+          if(trans.receiver.track.kind === "video"){
+            videoTransceiver.sender.replaceTrack(trans.receiver.track);
+          }
+        })
+        // audioTransceiver.sender.replaceTrack(value.getTransceivers()[0].receiver.track);
+        // videoTransceiver.sender.replaceTrack(value.getTransceivers()[1].receiver.track);
       } else{
         const audioTransceiver1 = peerConnection.addTransceiver('audio')
         const videoTransceiver1 = peerConnection.addTransceiver('video')
-        audioTransceiver1.sender.replaceTrack(value.getTransceivers()[0].receiver.track);
-        videoTransceiver1.sender.replaceTrack(value.getTransceivers()[1].receiver.track);
+        value.getTransceivers().map(trans=>{
+          if(trans.receiver.track.kind === "audio"){
+            audioTransceiver1.sender.replaceTrack(trans.receiver.track);
+          }
+          if(trans.receiver.track.kind === "video"){
+            videoTransceiver1.sender.replaceTrack(trans.receiver.track);
+          }
+        })
+        // audioTransceiver1.sender.replaceTrack(value.getTransceivers()[0].receiver.track);
+        // videoTransceiver1.sender.replaceTrack(value.getTransceivers()[1].receiver.track);
       }
       i+=1
       // value.getTransceivers.map(transceiver =>{
