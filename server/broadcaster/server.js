@@ -79,13 +79,13 @@ function beforeOffer(peerConnection, connectionManagerInstance, currentPeerConne
     videoTrack
   });
 
-  const { close } = peerConnection;
+  // const { close } = peerConnection;
   // eslint-disable-next-line space-before-function-paren
-  peerConnection.close = function () {
-    audioTrack.stop();
-    videoTrack.stop();
-    return close.apply(this, arguments);
-  };
+  // peerConnection.close = function () {
+  //   audioTrack.stop();
+  //   videoTrack.stop();
+  //   return close.apply(this, arguments);
+  // };
 }
 
 module.exports = {
