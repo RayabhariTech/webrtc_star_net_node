@@ -9,7 +9,7 @@ const WebRtcConnectionManager = require('./lib/server/connections/webrtcconnecti
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 
 const broadcasterDirectoryPath = join(__dirname, 'broadcaster');
