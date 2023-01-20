@@ -21,6 +21,7 @@
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.16.4",
     "fluent-ffmpeg": "^2.1.2",
     "fluent-ffmpeg-multistream": "^1.0.0",
