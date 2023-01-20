@@ -18,7 +18,7 @@ const broadcasterDirectoryPath = join(__dirname, 'broadcaster');
 const serverPath = join(broadcasterDirectoryPath, 'server.js');
 const options = require(serverPath);
 const connectionManager = WebRtcConnectionManager.create(options);
-mount(app, connectionManager, '/broadcaster');
+mount(app, connectionManager, '/stream_api/broadcaster');
 
 const server = app.listen(process.env.STREAM_PORT, () => {
   const address = server.address();
