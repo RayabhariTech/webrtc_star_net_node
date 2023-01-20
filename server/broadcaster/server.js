@@ -21,11 +21,13 @@ function beforeOffer(peerConnection, connectionManagerInstance, currentPeerConne
     var i = 0
     for (let [key, value] of peerConnections) {
       console.log(key, currentPeerConnectionId, key === currentPeerConnectionId)
+      console.log(value.connectionState)
       if (key === currentPeerConnectionId)
         continue;
       if(states.includes(value.connectionState))
         continue;
       if(i==0){
+        console.log("transeivers:",value.getTransceivers())
         value.getTransceivers().map(trans=>{
           if(trans.receiver.track.kind === "audio"){
             audioTransceiver.sender.replaceTrack(trans.receiver.track);
@@ -37,6 +39,7 @@ function beforeOffer(peerConnection, connectionManagerInstance, currentPeerConne
         // audioTransceiver.sender.replaceTrack(value.getTransceivers()[0].receiver.track);
         // videoTransceiver.sender.replaceTrack(value.getTransceivers()[1].receiver.track);
       } else{
+        console.log("trans", value.getTransceivers())
         const audioTransceiver1 = peerConnection.addTransceiver('audio')
         const videoTransceiver1 = peerConnection.addTransceiver('video')
         value.getTransceivers().map(trans=>{
