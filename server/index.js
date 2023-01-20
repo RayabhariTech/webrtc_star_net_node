@@ -6,6 +6,8 @@ const { join } = require('path');
 const cors = require('cors');
 const { mount } = require('./lib/server/rest/connectionsapi');
 const WebRtcConnectionManager = require('./lib/server/connections/webrtcconnectionmanager');
+const dotenv = require("dotenv");
+dotenv.config();
 
 const app = express();
 
@@ -18,7 +20,7 @@ const options = require(serverPath);
 const connectionManager = WebRtcConnectionManager.create(options);
 mount(app, connectionManager, '/broadcaster');
 
-const server = app.listen(3000, () => {
+const server = app.listen(process.env.STREAM_PORT, () => {
   const address = server.address();
   console.log(`http://localhost:${address.port}\n`);
 
