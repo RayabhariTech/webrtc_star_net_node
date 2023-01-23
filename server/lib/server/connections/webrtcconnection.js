@@ -1,6 +1,7 @@
 'use strict';
 
 const DefaultRTCPeerConnection = require('wrtc').RTCPeerConnection;
+
 const Connection = require('./connection');
 
 const TIME_TO_CONNECTED = 10000;
@@ -8,12 +9,12 @@ const TIME_TO_HOST_CANDIDATES = 3000;  // NOTE(mroberts): Too long.
 const TIME_TO_RECONNECTED = 10000;
 
 class WebRtcConnection extends Connection {
-  constructor(id, options = {}, connectionManagerInstance) {
+  constructor(id, options = {}) {
     super(id);
 
     options = {
       RTCPeerConnection: DefaultRTCPeerConnection,
-      beforeOffer() { },
+      beforeOffer() {},
       clearTimeout,
       setTimeout,
       timeToConnected: TIME_TO_CONNECTED,
@@ -28,11 +29,12 @@ class WebRtcConnection extends Connection {
       timeToConnected,
       timeToReconnected
     } = options;
+
     const peerConnection = new RTCPeerConnection({
       sdpSemantics: 'unified-plan'
     });
-    connectionManagerInstance.updateConnection(id, peerConnection);
-    beforeOffer(peerConnection, connectionManagerInstance, id);
+
+    beforeOffer(peerConnection);
 
     let connectionTimer = options.setTimeout(() => {
       if (peerConnection.iceConnectionState !== 'connected'
